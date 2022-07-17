@@ -1,6 +1,6 @@
 #include <Arduino.h>
 // #include <SPI.h>
-#include <Ethernet2.h>
+#include <Ethernet.h>
 #include <ArduinoHA.h>
 #include <AutomationBoard.h>
 
@@ -54,7 +54,7 @@ void relay4onSwitchStateChanged(bool state, HASwitch *s)
 void setup()
 {
   // put your setup code here, to run once:
-  // Serial.begin(9600); // open the serial port at 9600 bps:
+  Serial.begin(9600); // open the serial port at 9600 bps:
 
   automationboard.init();
 
@@ -105,7 +105,16 @@ void setup()
   // you don't need to verify return status
   Ethernet.begin(mac);
 
-  mqtt.begin(BROKER_ADDR);
+  // print dhcp assigned local IP address
+  Serial.println(Ethernet.localIP());
+
+  if(mqtt.begin(BROKER_ADDR))
+  {
+    Serial.print("Connected to broker at ");
+    Serial.println(BROKER_ADDR);
+  } else {
+    Serial.println("Not connected to broker");
+  }
 }
 
 void loop() {

@@ -1,5 +1,5 @@
 #include <unity.h>
-#include <Ethernet2.h>
+#include <Ethernet.h>
 
 void setUp(void)
 {
@@ -12,21 +12,24 @@ void tearDown(void)
 }
 
 byte mac[] = {0x00, 0x10, 0xFA, 0x6E, 0x38, 0x5C};
-EthernetClient client;
 
+// https://www.arduino.cc/reference/en/libraries/ethernet/ethernet.hardwarestatus/
 void hardware_status()
 {
-  TEST_ASSERT_NOT_EQUAL(EthernetNoHardware, Ethernet.hardwareStatus());
+  TEST_ASSERT_EQUAL(EthernetW5500, Ethernet.hardwareStatus());
 }
 
+// https://www.arduino.cc/reference/en/libraries/ethernet/ethernet.linkstatus/
 void link_status()
 {
-  TEST_ASSERT_NOT_EQUAL(LinkOFF, Ethernet.linkStatus());
+  TEST_ASSERT_EQUAL(LinkON, Ethernet.linkStatus());
 }
 
 void ethernet_ip(void)
 {
-  TEST_ASSERT_EQUAL(OUTPUT, Ethernet.localIP());
+  IPAddress ip = Ethernet.localIP();
+  IPAddress ip_test(10, 0, 0, 177);
+  TEST_ASSERT_EQUAL(ip_test, ip);
 }
 
 void setup()
