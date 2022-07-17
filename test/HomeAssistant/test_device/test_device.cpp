@@ -12,7 +12,6 @@ void tearDown(void)
 }
 
 byte mac[] = {0x00, 0x10, 0xFA, 0x6E, 0x38, 0x5C};
-
 HADevice haDevice(mac, sizeof(mac));
 
 void ha_device_name(void)
