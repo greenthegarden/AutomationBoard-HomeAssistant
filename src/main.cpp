@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <SPI.h>
+// #include <SPI.h>
 #include <Ethernet2.h>
 #include <ArduinoHA.h>
 #include <AutomationBoard.h>
