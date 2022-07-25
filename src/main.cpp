@@ -22,33 +22,48 @@ void onBeforeSwitchStateChanged(bool state, HASwitch *s)
   // in some cases there may be delay before onStateChanged is called due to network latency
 }
 
+void printStateChange(int relay, bool state){
+  Serial.print("Relay ");
+  Serial.print(relay);
+  Serial.print(" changed to ");
+  Serial.print(state);
+  Serial.println();
+}
+
 // Configure Relay 1
-HASwitch relay_1("relay_1", false);
+HASwitch relay_1("automation_board_relay_1", false);
 void relay1onSwitchStateChanged(bool state, HASwitch *s)
 {
   digitalWrite(automationboard.getRelay1Pin(), (state ? HIGH : LOW));
+  printStateChange(1, state);
 }
 
 // Configure Relay 2
-HASwitch relay_2("relay_2", false);
+HASwitch relay_2("automation_board_relay_2", false);
 void relay2onSwitchStateChanged(bool state, HASwitch *s)
 {
   digitalWrite(automationboard.getRelay2Pin(), (state ? HIGH : LOW));
+  printStateChange(2, state);
 }
 
 // Configure Relay 3
-HASwitch relay_3("relay_3", false);
+HASwitch relay_3("automation_board_relay_3", false);
 void relay3onSwitchStateChanged(bool state, HASwitch *s)
 {
   digitalWrite(automationboard.getRelay3Pin(), (state ? HIGH : LOW));
+  printStateChange(3, state);
 }
 
 // Configure Relay 4
-HASwitch relay_4("relay_4", false);
+HASwitch relay_4("automation_board_relay_4", false);
 void relay4onSwitchStateChanged(bool state, HASwitch *s)
 {
   digitalWrite(automationboard.getRelay4Pin(), (state ? HIGH : LOW));
+  printStateChange(4, state);
 }
+
+const unsigned long AUTOMATIONBOARD_PUBLISH_INTERVAL = 5000UL;
+unsigned long automationboardPreviousMillis = 0UL;
 
 void setup()
 {
@@ -74,28 +89,28 @@ void setup()
   haDevice.enableLastWill();
 
   // Configure relay_1 specifics
-  relay_1.setName("relay 1");
+  relay_1.setName("Automation Board Relay 1");
   relay_1.setRetain(true);
   // handle switch state
   relay_1.onBeforeStateChanged(onBeforeSwitchStateChanged);
   relay_1.onStateChanged(relay1onSwitchStateChanged);
 
   // Configure relay_2 specifics
-  relay_2.setName("relay 2");
+  relay_2.setName("Automation Board Relay 2");
   relay_2.setRetain(true);
   // handle switch state
   relay_2.onBeforeStateChanged(onBeforeSwitchStateChanged);
   relay_2.onStateChanged(relay2onSwitchStateChanged);
 
   // Configure relay_3 specifics
-  relay_3.setName("relay 3");
+  relay_3.setName("Automation Board Relay 3");
   relay_3.setRetain(true);
   // handle switch state
   relay_3.onBeforeStateChanged(onBeforeSwitchStateChanged);
   relay_3.onStateChanged(relay3onSwitchStateChanged);
 
   // Configure relay_4 specifics
-  relay_4.setName("relay 4");
+  relay_4.setName("Automation Board Relay 4");
   relay_4.setRetain(true);
   // handle switch state
   relay_4.onBeforeStateChanged(onBeforeSwitchStateChanged);
